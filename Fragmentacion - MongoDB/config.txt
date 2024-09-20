@@ -1,0 +1,63 @@
+## PASO 1: INICIALIZAR LOS CONJUNTOS DE REPLICA ##
+
+# Iniciamos los servicios de monosh (mongod --config <PATH_DEL_ARCHIVO_DE_CONFIGURACION>)
+
+mongod --config ./configsvr.cfg # Configuracion del Server de Replica
+mongod --config ./sh1.cfg # Shard 1
+mongod --config ./sh2.cfg # Shard 2
+mongod --config ./sh3.cfg # Shard 3
+
+# Ingresamos a cada servicio para inicializar los conjuntos de Replica (mongosh --port <PUERTO_DEL_SERVICIO>)
+
+mongosh --port 27018 # Para el configsvr
+mongosh --port 27019 # Para el Shard 1
+mongosh --port 27020 # Para el Shard 2
+mongosh --port 27021 # Para el Shard 3
+
+# Inicializamos los conjuntos de Replica por cada servicio que hayamos iniciado (configsvr y shards)
+
+rs.initiate()
+
+
+## PASO 2: INICIALIZAR EL SERVICIO DE MONGOS Y AGREGAR LOS SHARDS ##
+
+# Inicializamos y nos conectamos el servicio de mongos
+
+mongos --config ./mongos.cfg # Iniciamos el servicio
+mongosh # Nos conectamos al servicio
+
+# Agregamos los Shadrs al mongos (sh.addShard("<NOMBRE_DEL_REPLICA_SET>/<HOST>:<PUERTO>"))
+
+sh.addShard("sh1/henry:27019")
+sh.addShard("sh2/henry:27020")
+sh.addShard("sh3/henry:27021")
+
+
+## PASO 3: CREAMOS LA BASE DE DATOS Y LA COLECCION A FRAGMENTAR ##
+
+# Creamos la Base de Datos (sh.enableSharding("<BASE_DE_DATOS>"))
+
+sh.enableSharding("shardingDB")
+
+# Creamos la Coleccion a Fragmentar (sh.shardCollection("BASE_DE_DATOS.COLECCION", {<CLAVE>: 1}))
+
+sh.shardCollection("shardingDB.people", {name: 1})
+
+
+## PASO 4: FRAGMENTAR COLECCION Y MOVER A CADA SHARD A UN CHUNK ##
+
+# Fragmentamos la coleccion (sh.splitAt("BASE_DE_DATOS.COLECCION", {<CLAVE>: <VALOR_DE_CORTE>}))
+
+sh.splitAt("shardingDB.people", {name: "H"})
+sh.splitAt("shardingDB.people", {name: "P"})
+
+# Movemos cada Chunk a un shard diferente (sh.moveChunk("BASE_DE_DATOS.COLECCION", {<CLAVE>: <VALOR_DE_CORTE>}, "NOMBRE_DEL_SHARD"))
+
+sh.moveChunk("shardingDB.people", {name: "A"}, "sh1")
+sh.moveChunk("shardingDB.people", {name: "I"}, "sh2")
+sh.moveChunk("shardingDB.people", {name: "Q"}, "sh3")
+
+
+
+
+
