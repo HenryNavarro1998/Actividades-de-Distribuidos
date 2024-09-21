@@ -1,0 +1,40 @@
+services:
+  nginxconf:
+    image: nginx
+    ports:
+      - "8083:80"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - nginx-load-balancer
+
+  nginx1:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./index1.html:/usr/share/nginx/html/index.html
+    networks:
+      - nginx-load-balancer
+
+  nginx2:
+    image: nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./index2.html:/usr/share/nginx/html/index.html
+    networks:
+      - nginx-load-balancer
+
+  nginx3:
+    image: nginx
+    ports:
+      - "8082:80"
+    volumes:
+      - ./index3.html:/usr/share/nginx/html/index.html
+    networks:
+      - nginx-load-balancer
+
+networks:
+  nginx-load-balancer:
+    driver: bridge
