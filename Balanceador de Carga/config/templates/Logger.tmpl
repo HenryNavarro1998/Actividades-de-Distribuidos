@@ -35,5 +35,41 @@
             "disable_host_sanitize": true
         }
     ]
+},
+{
+    "endpoint": "/api/create-connections",
+    "method": "POST",
+    "input_headers": ["*"],
+    "output_encoding": "no-op",
+    "extra_config": {},
+    "backend": [
+        {
+            "url_pattern": "/api/create-connections",
+            "encoding": "no-op",
+            "sd": "static",
+            "method": "POST",
+            "extra_config": {},
+            "host": {{ marshal  $host }},
+            "disable_host_sanitize": true
+        }
+    ]
+},
+{
+    "endpoint": "/api/get-statistics",
+    "method": "GET",
+    "input_headers": ["*"],
+    "output_encoding": "no-op",
+    "extra_config": {},
+    "backend": [
+        {
+            "url_pattern": "/api/get-statistics",
+            "encoding": "no-op",
+            "sd": "static",
+            "method": "GET",
+            "extra_config": {},
+            "host": {{ marshal  $host }},
+            "disable_host_sanitize": true
+        }
+    ]
 }
 {{end}}
