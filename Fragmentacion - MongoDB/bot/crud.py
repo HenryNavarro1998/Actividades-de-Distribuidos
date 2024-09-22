@@ -3,9 +3,9 @@ from random import choice
 import json
 
 # DATABASE SETTINGS
-URI = "mongodb://127.0.0.1:27017/"
+URI = "mongodb://25.6.26.123:27017/"
 CLIENT = MongoClient(URI)
-DATABASE = CLIENT["shardDB"]
+DATABASE = CLIENT["shardDB1"]
 
 # DATA
 NAMES = json.loads(open("data\\names.json").read())
