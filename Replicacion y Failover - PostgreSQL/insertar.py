@@ -1,13 +1,13 @@
 import psycopg2
 from psycopg2 import sql
 import argparse
-import schedule
+# import schedule
 import time
 import random
 
 # Configuración de la conexión a la base de datos
 db_config = {
-    'host': '192.168.1.106',
+    'host': '192.168.7.121',
     'database': 'postgres',
     'user': 'postgres'
 }
@@ -37,11 +37,11 @@ CREATE TABLE IF NOT EXISTS log_operaciones (
 def insertar_nombre(nombre, nodo_actual):
     # Insertar nombre en la tabla de nombres
     cur.execute("INSERT INTO nombres (nombre) VALUES (%s)", (nombre,))
-    
+
     # Registrar la operación en la tabla de log
     cur.execute("INSERT INTO log_operaciones (operacion, nodo_actual) VALUES (%s, %s)",
                 ('INSERT', nodo_actual))
-    
+
     # Confirmar los cambios en la base de datos
     conn.commit()
 
@@ -59,7 +59,7 @@ def generar_nombre_aleatorio():
 
 # Ejemplo de uso
 for i in range(10):
-    insertar_nombre(generar_nombre_aleatorio(), 'nodo_1')  # Llama a la función
+    insertar_nombre(generar_nombre_aleatorio(), 'henry')  # Llama a la función
     print("inserción: %i",i)
     time.sleep(2)  # Espera 2 segundos antes de la siguiente ejecución
 

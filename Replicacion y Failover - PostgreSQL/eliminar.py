@@ -1,13 +1,12 @@
 import psycopg2
 from psycopg2 import sql
 import argparse
-import schedule
 import time
 import random
 
 # Configuración de la conexión a la base de datos
 db_config = {
-    'host': '192.168.1.106',
+    'host': '192.168.7.120',
     'database': 'postgres',
     'user': 'postgres'
 }

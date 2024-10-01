@@ -1,13 +1,13 @@
 import psycopg2
 from psycopg2 import sql
 import argparse
-import schedule
+#import schedule
 import time
 import random
 
 # Configuración de la conexión a la base de datos
 db_config = {
-    'host': '192.168.1.106',
+    'host': '192.168.7.120',
     'database': 'postgres',
     'user': 'postgres'
 }
@@ -24,7 +24,7 @@ print("Nombres en la tabla:")
 for registro in registros:
     print(registro)
 # Registrar la operación en la tabla de log
-cur.execute("INSERT INTO log_operaciones (operacion, nodo_actual) VALUES (%s, %s)", ('READ', 'nodo_1'))
+cur.execute("INSERT INTO log_operaciones (operacion, nodo_actual) VALUES (%s, %s)", ('READ', 'henry'))
 
 # Confirmar los cambios en la base de datos
 conn.commit()

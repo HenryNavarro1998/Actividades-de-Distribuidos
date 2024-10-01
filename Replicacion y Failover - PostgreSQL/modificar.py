@@ -3,7 +3,7 @@ import psycopg2
 def modificar_nombre(id_nombre, nuevo_nombre):
     # Configuración de la conexión a la base de datos
     db_config = {
-        'host': '192.168.1.106',
+        'host': '192.168.7.120',
         'database': 'postgres',
         'user': 'postgres'
     }
